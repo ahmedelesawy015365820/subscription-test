@@ -3,7 +3,7 @@
 
 namespace App\Repositories\Client\User;
 
-use App\Dtos\Administrator\Admin\RegisterDto;
+use App\Dtos\Client\User\RegisterDto;
 use App\Models\User;
 
 class AuthRepository implements  AuthRepositoryInterface

@@ -3,7 +3,7 @@
 
 namespace App\Services\Client\Subscription;
 
-use App\Http\Requests\Client\Subscription\SubscriptionRequest;
+use App\Dtos\Client\Subscription\SubscriptionDto;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Client\Plan\PlanRepositoryInterface;
@@ -18,15 +18,15 @@ class SubscriptionService extends BaseService
         private PlanRepositoryInterface $planRepo,
     ) {}
 
-    public function subscription(array $data)
+    public function subscription(SubscriptionDto $data)
     {
         return $this->execute(function () use ($data) {
 
             $user = Auth::guard('user')->user();
 
-            $plan = $this->planRepo->find($data['plan_id']);
+            $plan = $this->planRepo->find($data->plan_id);
 
-            if($data['is_payment']){
+            if($data->is_payment){
                 $user = $this->subscriptionRepo->create([
                     'plan_id' => $plan->id,
                     'user_id' => $user->id,

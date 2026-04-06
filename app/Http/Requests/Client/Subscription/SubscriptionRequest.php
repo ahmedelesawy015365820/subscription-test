@@ -3,7 +3,7 @@
 
 namespace App\Http\Requests\Client\Subscription;
 
-use App\Dtos\Client\User\LoginDto;
+use App\Dtos\Client\Subscription\SubscriptionDto;
 use App\Http\Requests\BaseRequest;
 
 class SubscriptionRequest extends BaseRequest
@@ -19,7 +19,6 @@ class SubscriptionRequest extends BaseRequest
 
     public function dto(): string
     {
-        return;
+        return SubscriptionDto::class;
     }
-
 }

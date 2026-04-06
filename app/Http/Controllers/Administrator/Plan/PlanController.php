@@ -41,7 +41,7 @@ class PlanController extends BaseController
 
     public function update(PlanRequest $request, $id)
     {
-        $plan = $this->planRepo->update($id, $request->validated());
+        $plan = $this->planRepo->update($id, $request->toDto());
         return $this->responseJson(new PlanResource($plan), 'Update Successfully', 200);
     }
 

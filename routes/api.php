@@ -12,7 +12,7 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 // plan
-Route::post('plan-list', [PlanController::class, 'getList']);
+Route::get('plan-list', [PlanController::class, 'getList']);
 
 
 Route::middleware(UserAuth::class)->group(function () {

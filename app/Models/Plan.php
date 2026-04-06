@@ -10,7 +10,7 @@ use App\Enums\Currency;
 class Plan extends Model
 {
 
-    protected $fillable = ['name','days','billing_cycle','currency','price'];
+    protected $fillable = ['name','days','billing_cycle','currency','price', 'is_default'];
 
     protected $casts = [
         'billing_cycle' => BillingCycle::class,

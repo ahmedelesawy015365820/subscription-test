@@ -1,5 +1,7 @@
 # 🚀 Subscription 
 
+php artisan migrate:seed
+
 ## 📌 Overview
 
 * User authentication
@@ -13,10 +15,10 @@
 
 ## 🧠 Architecture
 
-* Controllers → handle HTTP requests
-* Requests → validation
+* Controllers → handle HTTP requests (use BaseController)
+* Requests → validation (use BaseRequest)
 * DTOs → structured data transfer
-* Services → business logic
+* Services → business logic (use ServiceController)
 * Repositories → database operations
 * Observers → database operations
 * Jobs → background processing
@@ -66,14 +68,13 @@ Runs daily job:
 * UPDATE /api/plans/update/{$id}
 * Delete /api/plans/{$id}
 
----
-
 ### 🔐 Auth user
 
 * POST /api/register
 * POST /api/login
 
----
+### 🔄 plan ist 
+* get /api/plan-list
 
 ### 🔄 Subscriptions user
 

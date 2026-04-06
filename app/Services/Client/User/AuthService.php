@@ -29,7 +29,9 @@ class AuthService extends BaseService
 
             $plan = $this->planRepo->getFreePlan();
 
-            $this->subscriptionRepo->createFreeSubscription($user,$plan);
+            if($plan){
+                $this->subscriptionRepo->createFreeSubscription($user,$plan);
+            }
 
             return compact('user', 'token');
         });

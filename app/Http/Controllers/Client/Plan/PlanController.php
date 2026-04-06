@@ -20,7 +20,7 @@ class PlanController extends BaseController
     public function getList()
     {
         $plans = $this->planRepo->getList();
-        return $this->responseJson(new PlanResource($plans), 'fetch data', 200);
+        return $this->responseJson(PlanResource::collection($plans), 'fetch data', 200);
     }
 
 }

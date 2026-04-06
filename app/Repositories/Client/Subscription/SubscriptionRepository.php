@@ -21,7 +21,7 @@ class SubscriptionRepository implements  SubscriptionRepositoryInterface
             'user_id' => $user->id,
             'plan_id' => $plan->id,
             'status' => 'trialing',
-            'trial_ends_at' => now()->addDays(7)
+            'ends_at' => now()->addDays(7)
         ]);
     }
 

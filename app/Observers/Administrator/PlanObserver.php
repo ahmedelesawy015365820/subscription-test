@@ -10,9 +10,9 @@ class PlanObserver
 
     public function saving(Plan $plan)
     {
-        if ($plan->isDefault) {
+        if ($plan->is_default) {
             DB::transaction(function () use ($plan) {
-                Plan::where('is_default', 1)->lockForUpdate()->update(['isDefault' => 0]);
+                Plan::where('is_default', 1)->lockForUpdate()->update(['is_default' => 0]);
                 $plan->is_default = 1;
             });
         }

@@ -20,7 +20,7 @@ class PlanResource extends JsonResource
             'price' => $this->price,
             'currency' => $this->currency,
             'billing_cycle' => $this->billing_cycle,
-            'trial_days' => $this->trial_days,
+            'days' => $this->days,
             'created_at' => $this->created_at,
         ];
     }
