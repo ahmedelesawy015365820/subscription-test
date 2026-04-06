@@ -20,6 +20,7 @@
 * Repositories → database operations
 * Observers → database operations
 * Jobs → background processing
+* enums
 ---
 # Dashboard
 ## 🔐 Authentication (Admin)
