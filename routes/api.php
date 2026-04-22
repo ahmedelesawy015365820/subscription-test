@@ -1,25 +1,35 @@
 <?php
 
-
-use App\Http\Controllers\Client\Plan\PlanController;
-use App\Http\Controllers\Client\Subscription\SubscriptionController;
-use App\Http\Controllers\Client\User\AuthController;
-use App\Http\Middleware\UserAuth;
 use Illuminate\Support\Facades\Route;
 
-// auth
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
+// ─── Public Routes ──────────────────────────────────────────────────────────
+Route::post('register', [\App\Http\Controllers\AuthController::class, 'register']);
+Route::post('login',    [\App\Http\Controllers\AuthController::class, 'login']);
+Route::get('enums',     [\App\Http\Controllers\EnumController::class, 'index']);
 
-// plan
-Route::get('plan-list', [PlanController::class, 'getList']);
+// ─── Protected Routes (Sanctum + Tenant isolation via BelongsToTenant) ──────
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 
+    // Plans
+    Route::apiResource('plans', \App\Http\Controllers\PlanController::class);
 
-Route::middleware(UserAuth::class)->group(function () {
+    // Customers
+    Route::apiResource('customers', \App\Http\Controllers\CustomerController::class);
 
-    // subscription
-    Route::post('subscription', [SubscriptionController::class, 'create']);
+    // Subscriptions
+    Route::apiResource('subscriptions', \App\Http\Controllers\SubscriptionController::class);
+    Route::post('subscriptions/{id}/cancel',   [\App\Http\Controllers\SubscriptionController::class, 'cancel']);
+    Route::post('subscriptions/{id}/activate', [\App\Http\Controllers\SubscriptionController::class, 'activate']);
 
+    // Invoices
+    Route::apiResource('invoices', \App\Http\Controllers\InvoiceController::class);
+    Route::post('generate-invoices', [\App\Http\Controllers\InvoiceController::class, 'generateInvoices']);
+
+    // Payments
+    Route::apiResource('payments', \App\Http\Controllers\PaymentController::class)->only(['index', 'store', 'show']);
+
+    // Reports
+    Route::get('reports/income-statement', [\App\Http\Controllers\ReportController::class, 'incomeStatement']);
+    Route::get('reports/balance-sheet',    [\App\Http\Controllers\ReportController::class, 'balanceSheet']);
 });
-
-

@@ -2,24 +2,35 @@
 
 namespace App\Models;
 
-use App\Observers\Administrator\PlanObserver;
+use App\Traits\BelongsToTenant;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\BillingCycle;
-use App\Enums\Currency;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Plan extends Model
 {
 
-    protected $fillable = ['name','days','billing_cycle','currency','price', 'is_default'];
+    use HasFactory,SoftDeletes,BelongsToTenant;
 
-    protected $casts = [
-        'billing_cycle' => BillingCycle::class,
-        'currency' => Currency::class,
+    protected $fillable = [
+        'tenant_id','name','price','billing_cycle'
     ];
 
-    protected static function booted()
+    public function tenant()
     {
-        static::observe(PlanObserver::class);
+        return $this->belongsTo(Tenant::class);
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'billing_cycle' => \App\Enums\BillingCycle::class,
+        ];
+    }
 }

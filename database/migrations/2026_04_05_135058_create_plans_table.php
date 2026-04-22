@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tenant_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->integer('days')->default(0);
-            $table->string('billing_cycle');
-            $table->string('currency');
             $table->decimal('price', 10, 2);
-            $table->boolean('is_default')->default(0);
+            $table->string('billing_cycle');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

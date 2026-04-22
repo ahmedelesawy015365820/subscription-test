@@ -2,23 +2,30 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToTenant;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\SubscriptionStatus;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subscription extends Model
 {
 
-    protected $fillable = ['user_id','plan_id','status','ends_at','grace_period_ends_at'];
+    use HasFactory,SoftDeletes,BelongsToTenant;
 
-    protected $casts = [
-        'status' => SubscriptionStatus::class,
-        'ends_at' => 'timestamp',
-        'grace_period_ends_at' => 'timestamp'
+    protected $fillable = [
+        'tenant_id','customer_id','plan_id',
+        'start_date','end_date','status'
     ];
 
-    public function user()
+    public function tenant()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Tenant::class);
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }
 
     public function plan()
@@ -26,9 +33,15 @@ class Subscription extends Model
         return $this->belongsTo(Plan::class);
     }
 
-    public function payments()
+    public function invoices()
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasMany(Invoice::class);
     }
 
+    protected function casts(): array
+    {
+        return [
+            'status' => \App\Enums\SubscriptionStatus::class,
+        ];
+    }
 }
