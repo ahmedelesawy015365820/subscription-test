@@ -7,11 +7,11 @@ namespace App\Http\Controllers;
 class BaseController extends Controller
 {
 
-    function responseJson($object = null, $massage = '', $response_status = 200, $pagination = null)
+    function responseJson($object = null, $message = '', $response_status = 200, $pagination = null)
     {
         $response = [
             'status' => $response_status >= 200 && $response_status < 400,
-            'message' => $massage,
+            'message' => $message,
             'data' => $object,
             'pagination' => $pagination,
         ];

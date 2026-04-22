@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\SetTenantContext;
 use Illuminate\Support\Facades\Route;
 
 // ─── Public Routes ──────────────────────────────────────────────────────────
@@ -8,7 +9,8 @@ Route::post('login',    [\App\Http\Controllers\AuthController::class, 'login']);
 Route::get('enums',     [\App\Http\Controllers\EnumController::class, 'index']);
 
 // ─── Protected Routes (Sanctum + Tenant isolation via BelongsToTenant) ──────
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum',SetTenantContext::class])->group(function () {
+
     Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 
     // Plans

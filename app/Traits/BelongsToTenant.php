@@ -9,14 +9,14 @@ trait BelongsToTenant
     protected static function booted()
     {
         static::creating(function ($model) {
-            if (auth()->check()) {
-                $model->tenant_id = auth()->user()->tenant_id;
+            if (app()->bound('current_tenant_id')) {
+                $model->tenant_id = app('current_tenant_id');
             }
         });
 
         static::addGlobalScope('tenant', function ($query) {
-            if (auth()->check()) {
-                $query->where('tenant_id', auth()->user()->tenant_id);
+            if (app()->bound('current_tenant_id')) {
+                $query->where('tenant_id', app('current_tenant_id'));
             }
         });
     }
